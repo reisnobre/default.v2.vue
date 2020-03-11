@@ -1,0 +1,46 @@
+.btn, button{
+  background: $highlight;
+  color: white;
+  padding: 0.5rem 1rem;
+  @include card(1);
+  font-size: 1.3em;
+  text-decoration: none;
+  transition: box-shadow 0.3s ease-in-out;
+  display: inline-block;
+  letter-spacing: 1.2px;
+  font-weight: 900;
+  border-radius: 0.25rem;
+  &.__error{
+    background: $error;
+  }
+  &.__success{
+    background: $success;
+  }
+  &.__large{
+    padding: 0.5rem 6rem;
+    font-size: 1.6em;
+  }
+  &.__blue{
+    color: white;
+    // background: $bdazzledBlue;
+  }
+  &:hover{
+    @include card(2);
+  }
+  &.__shake-horizontal {
+    animation: shake-horizontal 0.8s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+  }
+}
+
+@include bp(max, $smallBP){
+  .btn, button{
+    font-size: 1.1em;
+    letter-spacing: 1.1px;
+  }
+}
+
+@include bp(max, $xsmallBP){
+  .btn, button{
+    width: 100% !important;
+  }
+}

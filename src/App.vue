@@ -1,32 +1,82 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
+    <div id="update" v-if="updateExists">
+      <p>New update found!</p>
+      <button @click="refreshApp">
+        Click to Refresh
+      </button>
     </div>
-    <router-view/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+export default {
+  name: 'app',
+  data () {
+    return {
+      loaded: false,
+      refreshing: false,
+      updateExists: false,
+      registration: null
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
     }
+  },
+  computed: {
+  },
+  watch: {
+  },
+  created () {
+    document.addEventListener('swUpdated', this.showRefreshUI, { once: true })
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (this.refreshing) return
+      this.refreshing = true
+      window.location.reload()
+    })
+  },
+  beforeMount () {
+    // auto login for laravel applications
+    const authTokens = JSON.parse(window.localStorage.getItem('authTokens'))
+    if (authTokens) this.autoLogin(authTokens)
+    else this.$router.push({ name: 'login' })
+  },
+  methods: {
+    autoLogin (tokens) {
+      this.$store.dispatch('userStore/get', this).then(status => {
+        if (status) {
+          if (!this.$route.matched.length) {
+            const target = this.$route.path.split('/').pop()
+            if (this.$router.options.routes.map(r => r.name).indexOf(target) !== -1) this.$router.push({ name: target, query: this.$route.query })
+            else this.$router.push({ name: 'clients' })
+          } else {
+            // if (this.$route.name === 'login') {
+            //   this.$router.push({ name: 'clients' })
+            // }
+          }
+        } else {
+          this.$store.dispatch('authStore/delete')
+          this.$router.push({ name: 'login' })
+        }
+      })
+    },
+    showRefreshUI (e) {
+      this.registration = e.detail
+      this.updateExists = true
+    },
+    refreshApp () {
+      this.updateExists = false
+      if (!this.registration || !this.registration.waiting) return
+      // send message to SW to skip the waiting and activate the new SW
+      this.registration.waiting.postMessage('skipWaiting')
+    }
+  },
+  components: {
   }
 }
+</script>
+
+<style lang="scss">
+  @import "./scss/main.scss";
 </style>
