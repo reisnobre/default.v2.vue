@@ -18,7 +18,7 @@ export default {
   data () {
     return {
       loaded: false,
-      refreshing: false,
+      refreshing: true,
       updateExists: false,
       registration: null
 
@@ -37,10 +37,15 @@ export default {
     })
   },
   beforeMount () {
+    this.$store.dispatch('authenticationStore/get', [this, { username: 'admin@admin.com', password: 'nit_admin' }]).then(status => {
+      console.log(status)
+    }).catch(err => {
+      console.log(err)
+    })
     // auto login for laravel applications
-    const authTokens = JSON.parse(window.localStorage.getItem('authTokens'))
-    if (authTokens) this.autoLogin(authTokens)
-    else this.$router.push({ name: 'login' })
+    // const authTokens = JSON.parse(window.localStorage.getItem('authTokens'))
+    // if (authTokens) this.autoLogin(authTokens)
+    // else this.$router.push({ name: 'login' })
   },
   methods: {
     autoLogin (tokens) {
