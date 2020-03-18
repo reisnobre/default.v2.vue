@@ -37,11 +37,10 @@ export default {
     })
   },
   beforeMount () {
-    this.$store.dispatch('authenticationStore/get', [this, { username: 'admin@admin.com', password: 'nit_admin' }]).then(status => {
-      console.log(status)
-    }).catch(err => {
-      console.log(err)
-    })
+    // this.$store.dispatch('authenticationStore/get', [this, { username: 'admin@admin.com', password: 'nit_admin' }]).then(status => {
+    // }).catch(err => {
+    //   console.log(err)
+    // })
     // auto login for laravel applications
     // const authTokens = JSON.parse(window.localStorage.getItem('authTokens'))
     // if (authTokens) this.autoLogin(authTokens)
