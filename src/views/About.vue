@@ -1,7 +1,7 @@
 <template>
-  <main class="page" id="home">
+  <main class="page" id="about">
     <div class="wrapper">
-      <h3>Home</h3>
+      <h3>About</h3>
     </div>
   </main>
 </template>
@@ -9,7 +9,7 @@
 <script>
 /**
  * View description
- * @displayName Home
+ * @displayName About
  */
 export default {
   name: 'home'

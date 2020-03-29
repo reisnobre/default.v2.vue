@@ -1,20 +1,15 @@
 module.exports = {
   // set your styleguidist configuration here
   title: 'Default Style Guide',
-  components: 'src/**/*.vue',
+  // defaultExample: true,
   sections: [
     {
-      name: 'Clientes',
-      components: 'src/views/dashboard/d-clients.vue',
-      sections: [
-        {
-          components: 'src/components/dashboard/d-clients/*.vue'
-        }
-      ]
+      name: 'Home components',
+      components: ['src/views/Home.vue', 'src/views/home/**/*.vue']
     },
     {
-      name: 'Desenvolvedores',
-      components: 'src/views//d-clients/*.vue'
+      name: 'About components',
+      components: ['src/views/About.vue', 'src/views/about/**/*.vue']
     }
   ],
   // webpackConfig: {

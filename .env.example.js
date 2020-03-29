@@ -7,6 +7,5 @@ export const clientSecret = (conn) => {
     return env === 'production' ? '' : ''
   } else {
     return env === 'production' ? '' : ''
-  } 
+  }
 }
-
