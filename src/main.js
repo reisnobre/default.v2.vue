@@ -3,15 +3,10 @@ import App from './App.vue'
 
 import router from '@/router'
 import store from '@/store'
-import axios from '@/config/axios'
-import api from '@/config/api'
+import http from '@/config/http'
+import '@/registerServiceWorker'
 
-import './registerServiceWorker'
-
-Vue.use(axios)
-
-Vue.prototype.$api = api
-Vue.prototype.$http = axios
+Vue.prototype.$http = http
 
 Vue.config.productionTip = false
 
